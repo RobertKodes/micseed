@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
-import { TARGET_HZ, WINDOW_SAMPLES, prepareTake } from './pcm'
+import { TARGET_HZ, WINDOW_SAMPLES, encodeWav, prepareTake } from './pcm'
 import { chipsFromAddress, seedFromMono } from './seed'
+import { formatCallsign, parseWavPcm } from './wav'
 
 function tone(hz: number, seconds: number, rate = TARGET_HZ, amp = 0.4): Float32Array {
   const n = Math.round(seconds * rate)
@@ -44,5 +45,19 @@ describe('seedFromMono', () => {
   it('marks silence as quiet', async () => {
     const seed = await seedFromMono(new Float32Array(TARGET_HZ), TARGET_HZ)
     expect(seed.quiet).toBe(true)
+  })
+
+  it('parses a PCM wav to a stable callsign', async () => {
+    const mono = tone(220, 1.2)
+    const buf = encodeWav(mono, TARGET_HZ)
+    const wav = parseWavPcm(buf)
+    expect(wav).not.toBeNull()
+    expect(wav!.sampleRate).toBe(TARGET_HZ)
+    expect(wav!.mono.length).toBe(mono.length)
+    const once = await seedFromMono(wav!.mono, wav!.sampleRate)
+    const twice = await seedFromMono(parseWavPcm(buf)!.mono, TARGET_HZ)
+    expect(once.address).toBe(twice.address)
+    expect(once.address.length).toBeGreaterThanOrEqual(32)
+    expect(formatCallsign(once.address).includes(' ')).toBe(true)
   })
 })

@@ -1,7 +1,8 @@
 import './style.css'
 import { copyText, micAvailable } from './lib/clipboard'
-import { decodeAudioFile, makeAudioContext, mixToMono } from './lib/pcm'
+import { makeAudioContext, mixToMono } from './lib/pcm'
 import { seedFromMono, type Seed } from './lib/seed'
+import { formatCallsign, parseWavPcm } from './lib/wav'
 import { TakeRecorder } from './record'
 import { paintVu } from './vu'
 
@@ -42,8 +43,9 @@ function applyLevel(level: number): void {
 
 function showPlate(next: Seed, source: 'mic' | 'file'): void {
   seed = next
+  booth.classList.add('is-ready')
   plate.hidden = false
-  addressEl.textContent = next.address
+  addressEl.textContent = formatCallsign(next.address)
   chipsEl.replaceChildren(
     ...next.chips.map((chip) => {
       const el = document.createElement('span')
@@ -58,13 +60,14 @@ function showPlate(next: Seed, source: 'mic' | 'file'): void {
     ? `quiet take · ${via} · ${next.hashHex.slice(0, 8)}`
     : `${take.toFixed(1)}s · 16 kHz mono · ${via} · ${next.hashHex.slice(0, 8)}`
   setStatus(next.quiet ? 'callsign from a quiet take' : 'callsign on the plate')
-  setWord('resample')
+  setWord('hold again')
   meter.textContent = ''
   copyBtn.textContent = 'copy address'
 }
 
 function clearPlate(): void {
   seed = null
+  booth.classList.remove('is-ready')
   plate.hidden = true
   addressEl.textContent = ''
   chipsEl.replaceChildren()
@@ -208,8 +211,14 @@ async function ingestFile(file: File): Promise<void> {
   setWord('developing')
   setStatus(`decoding ${file.name}`)
   try {
+    const raw = await file.arrayBuffer()
+    const wav = parseWavPcm(raw)
+    if (wav) {
+      await develop(wav.mono, wav.sampleRate, 'file')
+      return
+    }
     const ac = await audioCtx()
-    const buffer = await decodeAudioFile(file, ac)
+    const buffer = await ac.decodeAudioData(raw.slice(0))
     const mono = mixToMono(buffer)
     await develop(mono, buffer.sampleRate, 'file')
   } catch (err) {

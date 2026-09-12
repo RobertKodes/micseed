@@ -32,7 +32,7 @@ Type: **Instrument Serif** (station face) + **IBM Plex Mono** (callsign). Fallba
 2. While holding, an analyser paints spectrum bars inside the capsule and the filament blooms with level.
 3. On release we keep **0.5–1.5 s** of mono PCM, resample to **16 kHz**, peak-normalize, quantize to little-endian int16, then **SHA-256** (Web Crypto).
 4. The 32-byte digest is **base58**-encoded (Solana alphabet). That string is 32–44 chars — a PDA-*looking* preview, not `findProgramAddress` with a program id.
-5. Same pipeline for a dropped or picked **.wav / .webm / .mp3** (first 1.5 s after decode). Same bytes → same address.
+5. Same pipeline for a dropped or picked **.wav / .webm / .mp3**. PCM `.wav` is parsed in-app (stable across browsers); compressed formats go through Web Audio decode. First 1.5 s. Same bytes → same address.
 6. Copy the callsign. **Resample** clears the plate and arms another take.
 7. Denied mic or insecure context: the booth says so; file drop still works. No wallet, no signing, no RPC.
 

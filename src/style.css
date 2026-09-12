@@ -93,7 +93,7 @@ code,
 .mast p {
   margin: 0.15rem 0 0;
   font-size: 0.68rem;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--dust);
 }
@@ -106,7 +106,7 @@ code,
   align-items: center;
   gap: 0.45rem;
   font-size: 0.62rem;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--dust);
   z-index: 2;
@@ -145,7 +145,7 @@ code,
 .status {
   margin: 0;
   font-size: 0.72rem;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.06em;
   text-transform: lowercase;
   color: var(--dust);
   text-align: center;
@@ -239,11 +239,10 @@ code,
 
 .address {
   display: block;
-  font-size: clamp(0.82rem, 3.4vw, 1.02rem);
+  font-size: clamp(0.78rem, 3.2vw, 0.98rem);
   font-weight: 500;
-  letter-spacing: 0.035em;
-  line-height: 1.45;
-  word-break: break-all;
+  letter-spacing: 0.08em;
+  line-height: 1.7;
   color: var(--paper);
 }
 
@@ -328,6 +327,28 @@ code,
 .booth.is-drop .drop {
   color: var(--filament);
   border-bottom-color: var(--filament);
+}
+
+.booth.is-ready .stage {
+  justify-content: flex-start;
+  padding-top: 0.4rem;
+}
+
+.booth.is-ready .status {
+  order: 0;
+}
+
+.booth.is-ready .plate {
+  order: 1;
+}
+
+.booth.is-ready .capsule {
+  order: 2;
+  height: 3.6rem;
+}
+
+.booth.is-ready .capsule-word {
+  font-size: 1.05rem;
 }
 
 .booth.is-blocked .capsule {
