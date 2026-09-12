@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0b0907" />
+    <meta name="color-scheme" content="dark" />
+    <title>micseed</title>
+    <meta
+      name="description"
+      content="Hold to speak. Hash the take. A Solana-ish callsign from hearing."
+    />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+    <script type="module" crossorigin src="/micseed/assets/index-BXJo0fPF.js"></script>
+    <link rel="stylesheet" crossorigin href="/micseed/assets/index-fPlpz32Q.css">
+  </head>
+  <body>
+    <div class="booth" id="booth">
+      <div class="grain" aria-hidden="true"></div>
+      <header class="mast">
+        <h1>micseed</h1>
+        <p>hearing as input</p>
+      </header>
+      <div class="lamp" id="lamp" aria-hidden="true"><span>on air</span></div>
+
+      <main class="stage">
+        <p class="status" id="status">hold the capsule</p>
+        <button type="button" class="capsule" id="capsule" aria-pressed="false">
+          <canvas id="vu" class="vu" aria-hidden="true"></canvas>
+          <span class="capsule-face">
+            <span class="capsule-word" id="capsule-word">hold to speak</span>
+            <span class="capsule-meter" id="capsule-meter"></span>
+          </span>
+        </button>
+
+        <section class="plate" id="plate" hidden>
+          <p class="plate-kicker">callsign</p>
+          <code class="address" id="address"></code>
+          <div class="chips" id="chips"></div>
+          <p class="crumb" id="crumb"></p>
+          <div class="acts">
+            <button type="button" class="act" id="copy">copy address</button>
+            <button type="button" class="act ghost" id="again">resample</button>
+          </div>
+        </section>
+      </main>
+
+      <footer class="well">
+        <label class="drop" id="drop">
+          <input
+            id="file"
+            type="file"
+            accept="audio/wav,audio/wave,audio/x-wav,audio/webm,audio/mpeg,audio/mp3,audio/ogg,audio/*"
+          />
+          <span id="drop-label">or drop a take · wav / webm / mp3</span>
+        </label>
+        <p class="note">
+          Preview seed from the take — not a program-derived PDA. Sibling to drawseed and camseed.
+          Distinct from hearslot.
+        </p>
+      </footer>
+    </div>
+  </body>
+</html>
