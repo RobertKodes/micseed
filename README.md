@@ -59,12 +59,12 @@ npm test
 
 ## Pages
 
-`vite.config.ts` sets `base: '/micseed/'`. Push to `main` runs `.github/workflows/pages.yml` (`actions/deploy-pages`). The workflow also writes `dist/.nojekyll` and a `404.html` copy.
+`vite.config.ts` sets `base: '/micseed/'`. Push to `main` runs `.github/workflows/pages.yml`, which builds and force-pushes `dist/` (plus `.nojekyll`) to the `gh-pages` branch via `peaceiris/actions-gh-pages`.
 
-Manual republish of a built `dist/` to the `gh-pages` branch:
+Manual republish:
 
 ```bash
 npm run pages
 ```
 
-If the live URL 404s, repo Settings → Pages → GitHub Actions (or branch `gh-pages`, folder `/`).
+The `gh-pages` branch is already populated. If https://robertkodes.github.io/micseed/ 404s, flip **Settings → Pages → Deploy from a branch → `gh-pages` / `/` (root)** once. Same source as drawseed and camseed. This token cannot enable Pages via API.
