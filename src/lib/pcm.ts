@@ -107,11 +107,6 @@ export function makeAudioContext(): AudioContext {
   return new Ctor()
 }
 
-export async function decodeAudioFile(file: File, ctx: AudioContext): Promise<AudioBuffer> {
-  const raw = await file.arrayBuffer()
-  return ctx.decodeAudioData(raw.slice(0))
-}
-
 /** 16-bit mono WAV for tests and browser fixtures. */
 export function encodeWav(samples: Float32Array, sampleRate = TARGET_HZ): ArrayBuffer {
   const bytes = toPcm16Bytes(samples)
